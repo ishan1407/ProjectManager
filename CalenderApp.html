@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Calendar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" integrity="sha512-A/UdIhq1KOOp5Q5W8vJ3UKTaXBe3RVtHw5H0+CnK3++hsjTlurpPyCq6rL2qDhLRqgJ6eBxqWGzlpT9kgpEHqg==" crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha512-BbF/ZGQBlPTcFbA9z5P2bAzTmQ6pYdUpq2a+kl1CZlKkn9ibmVHt7W9aj8qn1P2SdEhj0eGZtJdD6VbJp9ddOQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-oXkMz4Ie4KejRDd3sLCXC0qoDEnMmBE3fuW4L+H+7BVOP2wgn2ryC+Enqo1p5z4eiVvXe7FHgBPbqljPe4FvyQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js" integrity="sha512-EfwX5WCoNACuYtR1prL3pAFs/QuwWDB3piNIGWaaYptYKrdEreubrMzFG4EmAfrE9DLJWz4jPNR7IT6rp2c23Q==" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+
+        header {
+            background-color: #5bc0de;
+            color: #ecf0f1;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        main {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .monthly-calendar, .calendar {
+            width: 45%;
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-form {
+            width: 20%;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .form-group button {
+            background-color: #3498db;
+            color: #ecf0f1;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Interactive Calendar</h1>
+    </header>
+    <main>
+        <div class="monthly-calendar" id="monthlyCalendar"></div>
+        <div class="calendar" id="calendar"></div>
+        <div class="event-form">
+            <h2>Add Event</h2>
+            <div class="form-group">
+                <label for="eventTitle">Title:</label>
+                <input type="text" id="eventTitle" placeholder="Event Title">
+            </div>
+            <div class="form-group">
+                <label for="eventDate">Date:</label>
+                <input type="date" id="eventDate">
+            </div>
+            <div class="form-group">
+                <button onclick="addEvent()">Add Event</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        $(document).ready(function () {
+            // Monthly Calendar for January
+            $('#monthlyCalendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                defaultView: 'month',
+                defaultDate: '2024-01-01',
+                events: [
+                    {
+                        title: 'Event 1',
+                        start: '2024-01-05'
+                    },
+                    {
+                        title: 'Event 2',
+                        start: '2024-01-10'
+                    },
+                    // Add more events as needed
+                ]
+            });
+
+            // Daily Calendar
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                events: []
+            });
+        });
+
+        function addEvent() {
+            var title = $('#eventTitle').val();
+            var date = $('#eventDate').val();
+
+            if (title && date) {
+                $('#calendar').fullCalendar('renderEvent', {
+                    title: title,
+                    start: date,
+                    allDay: true
+                }, true);
+
+                // Clear the form
+                $('#eventTitle').val('');
+                $('#eventDate').val('');
+            } else {
+                alert('Please enter both title and date.');
+            }
+        }
+    </script>
+</body>
+</html>
